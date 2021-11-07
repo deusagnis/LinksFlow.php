@@ -14,7 +14,7 @@ class LinkTransit
     protected LinkData $linkData;
     protected object $link;
 
-    public function __construct(LinkData $linkData, string $linkAlias, $linkPassword = '')
+    public function __construct(LinkData $linkData, string $linkAlias, string $linkPassword = '')
     {
         $this->linkData = $linkData;
 
