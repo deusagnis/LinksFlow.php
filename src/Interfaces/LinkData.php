@@ -13,6 +13,4 @@ interface LinkData
     public function getByAlias(string $alias);
 
     public function removeById(int $id);
-
-    public function findByOwnerId(int $ownerId, int $count, int $offset);
 }

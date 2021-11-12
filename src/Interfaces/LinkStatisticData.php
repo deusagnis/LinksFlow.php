@@ -9,6 +9,4 @@ interface LinkStatisticData
     public function saveStatistic(object $statistic);
 
     public function removeByLinkId(int $linkId);
-
-    public function findByLinkId(int $linkId, int $count, int $offset);
 }
