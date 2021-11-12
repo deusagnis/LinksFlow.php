@@ -42,7 +42,9 @@ class CollectLinkStatistic
     protected function provideStatisticBlank()
     {
         $this->linkStatistic = LinkStatistic::createStatisticBlank();
-        $this->linkStatistic->linkId = $this->link->id;
+
+        $this->linkStatistic->owner_id = $this->link->owner_id;
+        $this->linkStatistic->link_id = $this->link->id;
         $this->linkStatistic->ip = $this->transitIp;
     }
 
