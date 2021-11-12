@@ -12,8 +12,10 @@ class AnonLinkCreation
 
     static protected object $link;
 
-    static public function check()
+    static public function check($link)
     {
+        static::$link = $link;
+
         if (static::statisticsNeedMismatch()
             or static::soBigTransitionLimit()
             or static::soBigDuration()
