@@ -36,6 +36,6 @@ class AnonLinkCreation
 
     static function soBigDuration(): bool
     {
-        return static::MAX_DURATION != 0 and static::$link->expired_at < time() + static::MAX_DURATION;
+        return static::MAX_DURATION != 0 and static::$link->expired_at > time() + static::MAX_DURATION;
     }
 }

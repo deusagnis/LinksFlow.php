@@ -27,7 +27,7 @@ class CheckLinkConditions
 
     protected function linkFresh(): bool
     {
-        return $this->link->expired_at < time();
+        return $this->link->expired_at > time();
     }
 
     protected function transitionsAvailable(): bool

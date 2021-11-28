@@ -12,7 +12,7 @@ class LinkTransit
     protected string $linkAlias;
     protected string $linkPassword;
     protected LinkData $linkData;
-    public object $link;
+    public ?object $link;
 
     public function __construct(LinkData $linkData, string $linkAlias, string $linkPassword = '')
     {
