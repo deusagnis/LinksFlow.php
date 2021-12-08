@@ -12,7 +12,7 @@ class CollectLinkStatistic
     protected string $transitIp;
     protected LinkStatisticData $statisticData;
 
-    protected object $linkStatistic;
+    protected ?object $linkStatistic;
 
     public function __construct(LinkStatisticData $statisticData, object $link, string $transitIp)
     {
