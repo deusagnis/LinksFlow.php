@@ -7,8 +7,20 @@ use MGGFLOW\LinksFlow\Interfaces\LinkData;
 
 class GenerateLinkAlias
 {
+    /**
+     * Length of Alias.
+     * @var int
+     */
     public int $length = 6;
+    /**
+     * Tries to generate unique Alias.
+     * @var int
+     */
     public int $attempts = 3;
+    /**
+     * Alphabet of Alias.
+     * @var string
+     */
     public string $availableChars = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     protected LinkData $linkData;
 
@@ -17,6 +29,11 @@ class GenerateLinkAlias
         $this->linkData = $linkData;
     }
 
+    /**
+     * Generate random Alias.
+     * @return string
+     * @throws FailedToComeUpWithAlias
+     */
     public function generate(): string
     {
         $attempts = 0;

@@ -19,6 +19,12 @@ class CreateLink
         $this->link->created_at = time();
     }
 
+    /**
+     * Create Link.
+     * @return mixed
+     * @throws AliasNonUnique
+     * @throws IncorrectLinkOptions
+     */
     public function create()
     {
         $optionsAreCorrect = (new CheckLinkOptions($this->link))->check();

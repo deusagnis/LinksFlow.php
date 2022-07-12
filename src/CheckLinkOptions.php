@@ -13,6 +13,10 @@ class CheckLinkOptions
         $this->link = $link;
     }
 
+    /**
+     * Return true if Link has right options fields.
+     * @return bool
+     */
     public function check(): bool
     {
         return $this->expiredDateCorrect()

@@ -16,6 +16,11 @@ class EditLink
         $this->link = $link;
     }
 
+    /**
+     * Edit Link.
+     * @return mixed
+     * @throws IncorrectLinkOptions
+     */
     public function edit(){
         $optionsAreCorrect = (new CheckLinkOptions($this->link))->check();
         if(!$optionsAreCorrect){

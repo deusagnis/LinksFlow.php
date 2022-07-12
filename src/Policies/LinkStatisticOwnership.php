@@ -9,6 +9,13 @@ class LinkStatisticOwnership
     static protected object $linkStatistic;
     static protected int $userId;
 
+    /**
+     * Throw error if User by id does not own the LinkStatistic.
+     * @param object $linkStatistic
+     * @param int $userId
+     * @return void
+     * @throws AccessDenied
+     */
     static public function check(object $linkStatistic, int $userId){
         static::$linkStatistic = $linkStatistic;
         static::$userId = $userId;

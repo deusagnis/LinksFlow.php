@@ -18,6 +18,10 @@ class RemoveLink
         $this->linkId = $linkId;
     }
 
+    /**
+     * Remove Link.
+     * @return void
+     */
     public function remove()
     {
         $this->removeLink();

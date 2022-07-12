@@ -15,6 +15,12 @@ class CheckLinkConditions
         $this->link = $link;
     }
 
+    /**
+     * Throw Error if Link does not meet the conditions.
+     * @return void
+     * @throws LinkExpired
+     * @throws TooManyTransitions
+     */
     public function check()
     {
         if (!$this->linkFresh()) {

@@ -5,14 +5,32 @@ namespace MGGFLOW\LinksFlow\Policies;
 use MGGFLOW\LinksFlow\Entities\Link;
 use MGGFLOW\LinksFlow\Exceptions\UnavailableConfiguration;
 
+/**
+ * Restrictions on Link creation for unregistered user.
+ */
 class AnonLinkCreation
 {
+    /**
+     * Max transition limit.
+     */
     const MAX_TRANSITION_LIMIT = 5000;
+    /**
+     * Collecting statistic is unavailable.
+     */
     const NEED_STATISTIC = false;
+    /**
+     * Max Link duration.
+     */
     const MAX_DURATION = 30 * 24 * 60 * 60;
 
     static protected object $link;
 
+    /**
+     * Throw error if Link have fields prohibited for unregistered user.
+     * @param $link
+     * @return void
+     * @throws UnavailableConfiguration
+     */
     static public function check($link)
     {
         static::$link = $link;

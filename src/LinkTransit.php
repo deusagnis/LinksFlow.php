@@ -23,6 +23,13 @@ class LinkTransit
         $this->linkPassword = $linkPassword;
     }
 
+    /**
+     * Provide Link transition.
+     * @return mixed
+     * @throws LinkNotFound
+     * @throws NeedPassword
+     * @throws PasswordIncorrect
+     */
     public function transit()
     {
         $this->loadLink();

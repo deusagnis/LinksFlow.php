@@ -4,6 +4,10 @@ namespace MGGFLOW\LinksFlow\Entities;
 
 class LinkStatistic
 {
+    /**
+     * Create object of LinkStatistic with default fields.
+     * @return object
+     */
     public static function createStatisticBlank(): object
     {
         $now = time();

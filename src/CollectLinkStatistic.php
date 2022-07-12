@@ -22,6 +22,11 @@ class CollectLinkStatistic
         $this->transitIp = $transitIp;
     }
 
+    /**
+     * Collect statistic of Link transition.
+     * @return mixed
+     * @throws FailedToSaveStatistic
+     */
     public function collect()
     {
         $this->loadStatistic();
