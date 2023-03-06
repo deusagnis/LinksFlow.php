@@ -2,7 +2,8 @@
 
 namespace MGGFLOW\LinksFlow;
 
-use MGGFLOW\LinksFlow\Exceptions\FailedToComeUpWithAlias;
+use MGGFLOW\ExceptionManager\Interfaces\UniException;
+use MGGFLOW\ExceptionManager\ManageException;
 use MGGFLOW\LinksFlow\Interfaces\LinkData;
 
 class GenerateLinkAlias
@@ -32,7 +33,7 @@ class GenerateLinkAlias
     /**
      * Generate random Alias.
      * @return string
-     * @throws FailedToComeUpWithAlias
+     * @throws UniException
      */
     public function generate(): string
     {
@@ -46,7 +47,10 @@ class GenerateLinkAlias
             $attempts++;
         }
 
-        throw new FailedToComeUpWithAlias();
+        throw ManageException::build()
+            ->log()->info()->b()
+            ->desc()->failed(null, 'to Generate Unique Alias')->b()
+            ->fill();
     }
 
     protected function genRandomString(): string

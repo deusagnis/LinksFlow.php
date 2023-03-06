@@ -2,9 +2,9 @@
 
 namespace MGGFLOW\LinksFlow;
 
+use MGGFLOW\ExceptionManager\Interfaces\UniException;
+use MGGFLOW\ExceptionManager\ManageException;
 use MGGFLOW\LinksFlow\Entities\Link;
-use MGGFLOW\LinksFlow\Exceptions\LinkExpired;
-use MGGFLOW\LinksFlow\Exceptions\TooManyTransitions;
 
 class CheckLinkConditions
 {
@@ -18,16 +18,23 @@ class CheckLinkConditions
     /**
      * Throw Error if Link does not meet the conditions.
      * @return void
-     * @throws LinkExpired
-     * @throws TooManyTransitions
+     * @throws UniException
      */
     public function check()
     {
         if (!$this->linkFresh()) {
-            throw new LinkExpired();
+            throw ManageException::build()
+                ->log()->info()->b()
+                ->desc()->expired('Link')
+                ->context($this->link, 'link')->b()
+                ->fill();
         }
         if (!$this->transitionsAvailable()) {
-            throw new TooManyTransitions();
+            throw ManageException::build()
+                ->log()->info()->b()
+                ->desc()->tooMany(null, 'Transitions')
+                ->context($this->link, 'link')->b()
+                ->fill();
         }
     }
 

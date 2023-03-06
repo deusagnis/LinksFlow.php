@@ -2,8 +2,9 @@
 
 namespace MGGFLOW\LinksFlow\Policies;
 
+use MGGFLOW\ExceptionManager\Interfaces\UniException;
+use MGGFLOW\ExceptionManager\ManageException;
 use MGGFLOW\LinksFlow\Entities\Link;
-use MGGFLOW\LinksFlow\Exceptions\UnavailableConfiguration;
 
 /**
  * Restrictions on Link creation for unregistered user.
@@ -29,7 +30,7 @@ class AnonLinkCreation
      * Throw error if Link have fields prohibited for unregistered user.
      * @param $link
      * @return void
-     * @throws UnavailableConfiguration
+     * @throws UniException
      */
     static public function check($link)
     {
@@ -40,7 +41,11 @@ class AnonLinkCreation
             or static::soBigDuration()
             or static::usingServerRedirect()
         ) {
-            throw new UnavailableConfiguration();
+            throw ManageException::build()
+                ->log()->info()->b()
+                ->desc()->incorrect(null, 'Link Configuration')
+                ->context($link, 'link')->b()
+                ->fill();
         }
     }
 

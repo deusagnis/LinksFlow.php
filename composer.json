@@ -16,6 +16,7 @@
         }
     ],
     "require": {
-        "ext-json": "*"
+        "ext-json": "*",
+        "mggflow/exception-manager": "^2.1"
     }
 }

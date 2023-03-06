@@ -2,8 +2,8 @@
 
 namespace MGGFLOW\LinksFlow;
 
-use MGGFLOW\LinksFlow\Exceptions\AliasNonUnique;
-use MGGFLOW\LinksFlow\Exceptions\IncorrectLinkOptions;
+use MGGFLOW\ExceptionManager\Interfaces\UniException;
+use MGGFLOW\ExceptionManager\ManageException;
 use MGGFLOW\LinksFlow\Interfaces\LinkData;
 
 class CreateLink
@@ -22,20 +22,27 @@ class CreateLink
     /**
      * Create Link.
      * @return mixed
-     * @throws AliasNonUnique
-     * @throws IncorrectLinkOptions
+     * @throws UniException
      */
     public function create()
     {
         $optionsAreCorrect = (new CheckLinkOptions($this->link))->check();
         if (!$optionsAreCorrect) {
-            throw new IncorrectLinkOptions();
+            throw ManageException::build()
+                ->log()->info()->b()
+                ->desc()->incorrect(null, 'Link Options')
+                ->context($this->link, 'link')->b()
+                ->fill();
         }
 
         if ($this->needGenerateAlias()) {
             $this->generateAlias();
         } elseif ($this->linkData->existsByAlias($this->link->alias)) {
-            throw new AliasNonUnique();
+            throw ManageException::build()
+                ->log()->info()->b()
+                ->desc()->already('Link Alias')->exists()
+                ->context($this->link, 'link')->b()
+                ->fill();
         }
 
         return $this->linkData->createLink($this->link);

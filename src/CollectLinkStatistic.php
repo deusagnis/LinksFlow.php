@@ -2,8 +2,9 @@
 
 namespace MGGFLOW\LinksFlow;
 
+use MGGFLOW\ExceptionManager\Interfaces\UniException;
+use MGGFLOW\ExceptionManager\ManageException;
 use MGGFLOW\LinksFlow\Entities\LinkStatistic;
-use MGGFLOW\LinksFlow\Exceptions\FailedToSaveStatistic;
 use MGGFLOW\LinksFlow\Interfaces\LinkStatisticData;
 
 class CollectLinkStatistic
@@ -25,7 +26,7 @@ class CollectLinkStatistic
     /**
      * Collect statistic of Link transition.
      * @return mixed
-     * @throws FailedToSaveStatistic
+     * @throws UniException
      */
     public function collect()
     {
@@ -59,12 +60,20 @@ class CollectLinkStatistic
         $this->linkStatistic->last_transition_at = time();
     }
 
+    /**
+     * @throws UniException
+     */
     protected function saveStatistic()
     {
         $result = $this->statisticData->saveStatistic($this->linkStatistic);
 
         if (empty($result)) {
-            throw new FailedToSaveStatistic();
+            throw ManageException::build()
+                ->log()->info()->b()
+                ->desc()->failed(null, 'to Save Statistic')
+                ->context($this->link, 'link')
+                ->context($this->linkStatistic, 'linkStatistic')->b()
+                ->fill();
         }
 
         return $result;

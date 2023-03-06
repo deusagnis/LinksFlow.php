@@ -2,7 +2,8 @@
 
 namespace MGGFLOW\LinksFlow\Policies;
 
-use MGGFLOW\LinksFlow\Exceptions\AccessDenied;
+use MGGFLOW\ExceptionManager\Interfaces\UniException;
+use MGGFLOW\ExceptionManager\ManageException;
 
 class LinkStatisticOwnership
 {
@@ -14,19 +15,26 @@ class LinkStatisticOwnership
      * @param object $linkStatistic
      * @param int $userId
      * @return void
-     * @throws AccessDenied
+     * @throws UniException
      */
-    static public function check(object $linkStatistic, int $userId){
+    static public function check(object $linkStatistic, int $userId)
+    {
         static::$linkStatistic = $linkStatistic;
         static::$userId = $userId;
 
-        if(static::notInOwnership()){
-            throw new AccessDenied();
+        if (static::notInOwnership()) {
+            throw ManageException::build()
+                ->log()->info()->b()
+                ->desc()->denied('Access')
+                ->context($linkStatistic, 'linkStatistic')
+                ->context($userId, 'userId')->b()
+                ->fill();
         }
 
     }
 
-    static protected function notInOwnership(){
+    static protected function notInOwnership(): bool
+    {
         return static::$linkStatistic->owner_id != static::$userId;
     }
 }

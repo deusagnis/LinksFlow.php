@@ -2,9 +2,8 @@
 
 namespace MGGFLOW\LinksFlow;
 
-use MGGFLOW\LinksFlow\Exceptions\LinkNotFound;
-use MGGFLOW\LinksFlow\Exceptions\NeedPassword;
-use MGGFLOW\LinksFlow\Exceptions\PasswordIncorrect;
+use MGGFLOW\ExceptionManager\Interfaces\UniException;
+use MGGFLOW\ExceptionManager\ManageException;
 use MGGFLOW\LinksFlow\Interfaces\LinkData;
 
 class LinkTransit
@@ -26,15 +25,18 @@ class LinkTransit
     /**
      * Provide Link transition.
      * @return mixed
-     * @throws LinkNotFound
-     * @throws NeedPassword
-     * @throws PasswordIncorrect
+     * @throws UniException
      */
     public function transit()
     {
         $this->loadLink();
         if (empty($this->link)) {
-            throw new LinkNotFound();
+            throw ManageException::build()
+                ->log()->info()->b()
+                ->desc()->not('Link')->found()
+                ->context($this->linkAlias, 'linkAlias')
+                ->context($this->linkPassword, 'linkPassword')->b()
+                ->fill();
         }
 
         $this->checkConditions();
@@ -63,10 +65,18 @@ class LinkTransit
     {
         if ($this->needPassword()) {
             if ($this->noPassword()) {
-                throw new NeedPassword();
+                throw ManageException::build()
+                    ->log()->info()->b()
+                    ->desc()->need(null, 'Password')
+                    ->context($this->link, 'link')->b()
+                    ->fill();
             }
             if ($this->passwordIncorrect()) {
-                throw new PasswordIncorrect();
+                throw ManageException::build()
+                    ->log()->info()->b()
+                    ->desc()->wrong(null, 'Password')
+                    ->context($this->link, 'link')->b()
+                    ->fill();
             }
         }
     }
